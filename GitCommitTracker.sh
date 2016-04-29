@@ -7,9 +7,9 @@ git log --pretty=format:"%cd" --date=short > log.txt
 COMMIT_DATE= head -n 1 log.txt
 echo $COMMIT_DATE
 
- if [[ "$DATE" -gt "$COMMIT_DATE" ]];
-then 	
+if [[ "$DATE" -eq "$COMMIT_DATE" ]];
+then
 	echo "committed today";
-else 
+else
 	echo "Need to commit!!!";
  fi;
