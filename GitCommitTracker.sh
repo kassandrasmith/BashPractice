@@ -1,7 +1,9 @@
 #!/bin/bash
 
+
 DATE= date +%Y-%m-%d
-#echo $DATE
+echo $DATE
+echo $DATE
 
 LOG_DATE=$(git log -1 HEAD --pretty=format:"%cd" --date=short)
 #echo $LOG_DATE
@@ -26,4 +28,3 @@ then
 else
         echo "Need to commit!!!";
  fi;
-
