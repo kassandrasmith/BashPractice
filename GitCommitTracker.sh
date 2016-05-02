@@ -1,9 +1,8 @@
 #!/bin/bash
 
 
-DATE= date +%Y-%m-%d
-echo $DATE
-echo $DATE
+DATE=$(date +%Y-%m-%d)
+
 
 LOG_DATE=$(git log -1 HEAD --pretty=format:"%cd" --date=short)
 #echo $LOG_DATE
