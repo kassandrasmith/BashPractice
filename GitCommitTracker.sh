@@ -1,30 +1,54 @@
 #!/bin/bash
+committedToday=false;
+#find all git repositories and put them into this text file
+# find ~ -name .git -type d -prune 2>/dev/null  > RepositoryDirectory.txt
+## numOfLines=$(grep -c ^ gits2.txt)
+## echo "$numOfLines"
 
+#add globbers for files with a newline
+awk '{gsub(/ /,"\\ ")}8' RepositoryDirectory.txt > gits.txt
 
-DATE= date +%Y-%m-%d
-echo $DATE
-echo $DATE
+#Don't break on whitespaces
+IFS=''
+cat gits.txt |
+while read data
+do
 
-LOG_DATE=$(git log -1 HEAD --pretty=format:"%cd" --date=short)
-#echo $LOG_DATE
+#not necessary, but a safeguard to get to root
+cd
+  line=$data;
+  cd $data;
+  cd .. #compensate for .git at end of line
+  DATE= date +%Y-%m-%d &> /dev/null
+  LOG_DATE=$(git log -1 HEAD --pretty=format:"%cd" --date=short)
+  StartDate=$(date -u -d "$DATE" +"%s")
+  FinalDate=$(date -u -d "$LOG_DATE" +"%s")
+  # echo $FinalDate
+  # echo $StartDate
+  if [[ "$StartDate" -eq "$FinalDate" ]];
+  then
+          committedToday=true;
+          # echo "commit found"
+          echo $committedToday > committed.txt
 
+   fi;
+# echo $committedToday
 
-if [[ "$LOG_DATE" -eq "$DATE" ]];
-then
-	echo "committed today";
-else
-	echo "Need to commit!!!";
- fi;
+# echo "$data"
+done
+## <<< "$(echo -e "$committedToday")"
 
-StartDate=$(date -u -d "$DATE" +"%s")
-FinalDate=$(date -u -d "$LOG_DATE" +"%s")
-#echo $FinalDate
-#echo $StartDate 
+# Temporary workaround for subshell issue
 
+## echo $committedToday
+committedToday=$(head -1 committed.txt)
 
-if [[ "$StartDate" -eq "$FinalDate" ]];
-then
-        echo "committed today";
-else
-        echo "Need to commit!!!";
- fi;
+# echo $committedToday
+
+if [ "$committedToday" = false ] ; then
+    echo "You still need to commit!";
+  else
+    echo "You've committed today.";
+fi
+
+rm committed.txt
