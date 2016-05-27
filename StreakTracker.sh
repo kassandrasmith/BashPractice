@@ -19,19 +19,19 @@ cd #not necessary, but a safeguard to start at HOME
     #do nothing
   else
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-              FinalDate=$(date -d "$LOG_DATE" +"%s")
+              FinalDate=$(date -d "$LOG_DATE" +"%d")
 	    elif [[ "$OSTYPE" == "darwin"* ]]; then
             # Mac OSX
               DATE=$(date +%Y-%m-%d) &> /dev/null #Silence date output
-              StartDate=$(date -jf "%Y-%m-%d" "$DATE" +"%s")
-              FinalDate=$(date -jf "%Y-%m-%d" "$LOG_D ATE" +"%s")
+              StartDate=$(date -jf "%Y-%m-%d" "$DATE" +"%d")
+              FinalDate=$(date -jf "%Y-%m-%d" "$LOG_D ATE" +"%d")
 
 
     elif [[ "$OSTYPE" == "cygwin" ]]; then
             # POSIX compatibility layer and Linux environment emulation for Windows
             echo cygwin not yet tested, results may be incorrect;
             DATE=$(date +%Y-%m-%d) &> /dev/null #Silence date output
-            StartDate=$(date -d "$DATE" +"%s")
+            StartDate=$(date -d "$DATE" +"%d")
             FinalDate=$(date -d "$LOG_DATE" +"%d")
 
     elif [[ "$OSTYPE" == "msys" ]]; then
@@ -54,5 +54,5 @@ cd #not necessary, but a safeguard to start at HOME
             echo
     fi
 fi 
-done
 echo $FinalDate
+done)
